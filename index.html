@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <div class="mainElements">
+            <h1>در حال بارگذاری</h1>
+                <div class="progressBar">
+                    <canvas class="progressCanvas"></canvas>
+                </div>
+            <p>امام علی(ع): رکن زندگی، تدبیر صحیح و برنامه ریزی است</p>
+        </div>
+        <footer>
+            <div class="nojoInfo">
+                <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.545318 0H3.45468C3.75431 0 4 0.242697 4 0.545318V3.45468C4 3.75431 3.75431 4 3.45468 4H0.545318C0.242697 4 0 3.75431 0 3.45468V0.545318C0 0.242697 0.242697 0 0.545318 0ZM0.545318 0H3.45468C3.75431 0 4 0.242697 4 0.545318V3.45468C4 3.75431 3.75431 4 3.45468 4H0.545318C0.242697 4 0 3.75431 0 3.45468V0.545318C0 0.242697 0.242697 0 0.545318 0Z" fill="#40B740"/><path d="M8 3.89813V7.89514H4V3.89813H8ZM4.54532 3.89813H7.45468C7.75431 3.89813 8 4.14083 8 4.44045V7.34982C8 7.65244 7.75431 7.89514 7.45468 7.89514H4.54532C4.2427 7.89514 4 7.65244 4 7.34982V4.44045C4 4.14083 4.2427 3.89813 4.54532 3.89813Z" fill="#40B740"/><path d="M0.545318 7.89514H3.45468C3.75431 7.89514 4 8.13784 4 8.44046V11.3498C4 11.6494 3.75431 11.8951 3.45468 11.8951H0.545318C0.242697 11.8951 0 11.6494 0 11.3498V8.44046C0 8.13784 0.242697 7.89514 0.545318 7.89514ZM4 7.89514V11.8951H0V7.89514H4Z" fill="#40B740"/></svg>
+                <p style="font-size: 7px;">طراحی و پیاده سازی توسط گروه نوجو</p>
+            </div>
+            <div style="width: 50%; display: flex; justify-content: flex-start;"><p style="font-size: 7px; padding-left: 3%;">نسخه : ۱.۰.۰</p></div>
+        </footer>
+    </main>
+</body>
+<script>
+    const canvas = document.querySelector('.progressCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    let width = 0;
+
+    // رسم نوار و برفک
+    function drawSnow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // نوار نارنجی
+        ctx.fillStyle = '#FF8400';
+        ctx.fillRect(0, 0, (width / 100) * canvas.width, canvas.height);
+
+        // برفک تلویزیونی
+        const snowDensity = Math.floor(canvas.width / 2);
+        for (let i = 0; i < snowDensity; i++) {
+            const x = Math.random() * (width / 100) * canvas.width;
+            const y = Math.random() * canvas.height;
+            ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.7})`;
+            ctx.fillRect(x, y, 1, 1);
+        }
+
+        requestAnimationFrame(drawSnow);
+    }
+
+    // تابع پر کردن نوار
+    function updateProgress(callback) {
+        if (width < 100) {
+            width += 0.5;
+            setTimeout(() => updateProgress(callback), 50);
+        } else {
+            callback();
+        }
+    }
+
+    // وقتی تمام منابع لود شدند
+    window.addEventListener('load', () => {
+        updateProgress(() => {
+            // پنهان کردن لودینگ
+            document.getElementById('loadingScreen').style.display = 'none';
+            // نمایش محتوای اصلی
+            document.getElementById('mainContent').style.display = 'block';
+        });
+    });
+
+    drawSnow();
+
+</script>
+</html>
